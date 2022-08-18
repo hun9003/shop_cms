@@ -73,7 +73,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     /**
      * 카테고리 삭제
-     * @param command 카테고리 data
+     * @param categoryId 카테고리 IDX
      */
     @Override
     @Transactional
