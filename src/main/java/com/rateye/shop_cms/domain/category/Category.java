@@ -1,0 +1,53 @@
+package com.rateye.shop_cms.domain.category;
+
+import com.rateye.shop_cms.common.exception.InvalidParamException;
+import com.rateye.shop_cms.domain.AbstractEntity;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
+
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+
+@Getter
+@Entity
+@NoArgsConstructor
+@Table(name = "categorys")
+public class Category extends AbstractEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
+
+    @Column(name = "name")
+    private String name;
+
+    @Column(name = "orders")
+    private int order;
+
+    @ManyToOne
+    @JoinColumn(name = "parent", referencedColumnName = "id")
+    private Category parent;
+
+    @OneToMany(mappedBy = "parent")
+    private List<Category> categoryList = new ArrayList<>();
+
+    @Builder
+    public Category(String name, Category parent, int order) {
+        // 카테고리 이름 필수 입력 사항
+        if(StringUtils.isBlank(name)) throw new InvalidParamException("Category.name");
+        this.name = name;
+        this.parent = parent;
+        this.order = order;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setParent(Category category) {
+        this.parent = category;
+    }
+}
