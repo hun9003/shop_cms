@@ -43,6 +43,7 @@ public class AuthApiController {
     @ApiOperation(value = "비밀번호 변경 이메일 토큰 전송", notes = "비밀번호 변경을 위한 이메일 토큰을 이메일로 전송 합니다.")
     public CommonResponse<?> forgetPassword(@RequestBody @Valid AuthRequestDto.ForgetPasswordRequest request) {
         var command = request.toCommand();
+        authFacade.forgetPassword(command);
         return CommonResponse.success(command.getEmail()+" 메일로 토큰을 전송 했습니다.");
     }
 

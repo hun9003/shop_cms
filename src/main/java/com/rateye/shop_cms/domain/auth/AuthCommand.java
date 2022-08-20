@@ -28,11 +28,4 @@ public class AuthCommand {
                     .build();
         }
     }
-
-    @Getter
-    @Builder
-    @ToString
-    public static class ForgetPasswordRequest {
-        private final String email;
-    }
 }

@@ -3,6 +3,7 @@ package com.rateye.shop_cms.application.auth;
 import com.rateye.shop_cms.domain.auth.AuthCommand;
 import com.rateye.shop_cms.domain.auth.AuthCriteria;
 import com.rateye.shop_cms.domain.auth.AuthService;
+import com.rateye.shop_cms.domain.mail.MailCommand;
 import com.rateye.shop_cms.domain.mail.MailService;
 import com.rateye.shop_cms.domain.users.token.TokenInfo;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +29,7 @@ public class AuthFacade {
         return authService.login(criteria);
     }
 
-    public void forgetPassword(AuthCommand.ForgetPasswordRequest command) {
+    public void forgetPassword(MailCommand.ForgetPasswordRequest command) {
         mailService.forgetPassword(command);
     }
 

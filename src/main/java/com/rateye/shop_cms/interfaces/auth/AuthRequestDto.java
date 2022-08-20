@@ -2,6 +2,7 @@ package com.rateye.shop_cms.interfaces.auth;
 
 import com.rateye.shop_cms.domain.auth.AuthCommand;
 import com.rateye.shop_cms.domain.auth.AuthCriteria;
+import com.rateye.shop_cms.domain.mail.MailCommand;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -76,8 +77,8 @@ public class AuthRequestDto {
         @ApiModelProperty(name = "email", example = "test12345@example.com", notes = "이메일 형식에 맞게 입력 받습니다.", required = true)
         private String email;
 
-        public AuthCommand.ForgetPasswordRequest toCommand() {
-            return AuthCommand.ForgetPasswordRequest.builder()
+        public MailCommand.ForgetPasswordRequest toCommand() {
+            return MailCommand.ForgetPasswordRequest.builder()
                     .email(email)
                     .build();
         }
