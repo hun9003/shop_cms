@@ -6,4 +6,6 @@ public interface CategoryReader {
     int getCategoryCount(Category category);
     Category getCategory(Long id);
     List<Category> getCategoryList(Category parent);
+
+    boolean existsById(Long id);
 }

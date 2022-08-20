@@ -29,6 +29,16 @@ public class CategoryCommand {
         private final Long id;
         private final String name;
         private final Long parent;
+        private final int order;
+
+        public Category toEntity(Category parent) {
+            return Category.builder()
+                    .id(id)
+                    .name(name)
+                    .parent(parent)
+                    .order(order)
+                    .build();
+        }
     }
 
     @Getter

@@ -42,11 +42,15 @@ public class CategoryRequestDto {
         @ApiModelProperty(name = "parent", example = "1", notes = "카테고리 부모 IDX 입니다.")
         private final Long parent;
 
+        @ApiModelProperty(name = "order", example = "1", notes = "카테고리 정렬 순서 입니다.")
+        private final int order;
+
         public CategoryCommand.CategoryUpdateRequest toCommand(Long id) {
             return CategoryCommand.CategoryUpdateRequest.builder()
                     .id(id)
                     .name(name)
                     .parent(parent)
+                    .order(order)
                     .build();
         }
     }

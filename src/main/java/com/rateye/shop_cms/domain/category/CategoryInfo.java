@@ -11,12 +11,14 @@ public class CategoryInfo {
     private final Long id;
     private final String name;
     private final int order;
+    private final Long parentId;
     private final List<CategoryInfo> categoryList;
 
     public CategoryInfo(Category category, List<CategoryInfo> categoryList) {
         this.id = category.getId();
         this.name = category.getName();
         this.order = category.getOrder();
+        this.parentId = category.getParent() != null ? category.getParent().getId() : null;
         this.categoryList = categoryList;
     }
 }

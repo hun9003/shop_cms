@@ -31,4 +31,9 @@ public class CategoryReaderImpl implements CategoryReader {
     public List<Category> getCategoryList(Category Parent) {
         return categoryRepository.findAllByParentOrderByOrder(Parent);
     }
+
+    @Override
+    public boolean existsById(Long id) {
+        return categoryRepository.existsById(id);
+    }
 }

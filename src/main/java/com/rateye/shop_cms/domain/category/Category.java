@@ -32,22 +32,21 @@ public class Category extends AbstractEntity {
     private Category parent;
 
     @OneToMany(mappedBy = "parent")
+    @OrderBy("order ASC")
     private List<Category> categoryList = new ArrayList<>();
 
     @Builder
-    public Category(String name, Category parent, int order) {
+    public Category(Long id, String name, Category parent, int order) {
         // 카테고리 이름 필수 입력 사항
         if(StringUtils.isBlank(name)) throw new InvalidParamException("Category.name");
+        this.id = id;
         this.name = name;
         this.parent = parent;
         this.order = order;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setOrder(int order) {
+        this.order = order;
     }
 
-    public void setParent(Category category) {
-        this.parent = category;
-    }
 }
