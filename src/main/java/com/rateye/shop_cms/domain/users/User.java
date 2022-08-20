@@ -26,7 +26,10 @@ import java.util.stream.Collectors;
 @Table(name="users")
 public class User extends AbstractEntity implements UserDetails {
     @Id
-    private String id;
+    private String email;
+
+    @Column
+    private String name;
 
     @Column
     private String password;
@@ -37,11 +40,13 @@ public class User extends AbstractEntity implements UserDetails {
     private List<String> roles = new ArrayList<>();
 
     @Builder
-    public User(String id, String password, List<String> roles) {
-        if (StringUtils.isEmpty(id)) throw new InvalidParamException("empty id");
+    public User(String email, String name, String password, List<String> roles) {
+        if (StringUtils.isEmpty(email)) throw new InvalidParamException("empty email");
+        if (StringUtils.isEmpty(name)) throw new InvalidParamException("empty name");
         if (StringUtils.isEmpty(password)) throw new InvalidParamException("empty password");
 
-        this.id = id;
+        this.email = email;
+        this.name = name;
         this.password = password;
         this.roles = roles;
     }
@@ -61,7 +66,7 @@ public class User extends AbstractEntity implements UserDetails {
 
     @Override
     public String getUsername() {
-        return id;
+        return email;
     }
 
     @Override
