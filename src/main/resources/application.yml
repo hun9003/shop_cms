@@ -39,6 +39,18 @@ spring:
     pathmatch:
       matching-strategy: ant_path_matcher
 
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: jinhun3892@gmail.com
+    password: wlsgns12
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
 logging:
   config: classpath:logback-local.xml
 #  level:
