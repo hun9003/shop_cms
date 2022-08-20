@@ -13,9 +13,9 @@ public enum ErrorCode {
     COMMON_BAD_REQUEST("잘못된 요청 입니다."),
 
     // USER
-    USER_REDUPLICATION_ID("이미 회원가입 된 아이디 입니다"),
+    USER_REDUPLICATION_EMAIL("이미 회원가입 된 이메일 입니다"),
     USER_NOT_FIND("회원을 찾을 수 없습니다."),
-    USER_FAIL_LOGIN("아이디 혹은 비밀번호가 일치 하지 않습니다."),
+    USER_FAIL_LOGIN("이메일 혹은 비밀번호가 일치 하지 않습니다."),
     USER_BAD_PERMISSION_TOKEN("권한 정보가 없는 토큰입니다."),
     USER_BAD_REFRESH_TOKEN("Refresh Token 정보가 유효 하지 않습니다."),
     USER_FAIL_REFRESH_TOKEN("Refresh Token 정보가 일치 하지 않습니다."),

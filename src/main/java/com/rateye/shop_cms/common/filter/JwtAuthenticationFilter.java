@@ -47,7 +47,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 
             var result = CommonResponse.builder()
-                    .result(CommonResponse.Result.FAIL)
+                    .ok(false)
                     .message(e.getErrorCode().getErrorMsg())
                     .errorCode(e.getErrorCode().name())
                     .build();

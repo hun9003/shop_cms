@@ -71,6 +71,7 @@ public class JwtTokenProvider {
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
                 .refreshTokenExpirationTime(REFRESH_TOKEN_EXPIRE_TIME)
+                .roles(authentication.getAuthorities())
                 .build();
     }
 

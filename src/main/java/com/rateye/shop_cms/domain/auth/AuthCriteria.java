@@ -1,11 +1,11 @@
-package com.rateye.shop_cms.domain.users;
+package com.rateye.shop_cms.domain.auth;
 
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
-public class UserCriteria {
+public class AuthCriteria {
 
     @Getter
     @Builder
@@ -18,17 +18,17 @@ public class UserCriteria {
     @Getter
     @Builder
     @ToString
-    public static class LoginUserRequest {
-        private final String id;
+    public static class LoginRequest {
+        private final String email;
         private final String password;
 
-        public LoginUserRequest(String id, String password) {
-            this.id = id;
+        public LoginRequest(String email, String password) {
+            this.email = email;
             this.password = password;
         }
 
         public UsernamePasswordAuthenticationToken toAuthentication() {
-            return new UsernamePasswordAuthenticationToken(id, password);
+            return new UsernamePasswordAuthenticationToken(email, password);
         }
     }
 

@@ -1,4 +1,4 @@
-package com.rateye.shop_cms.domain.users;
+package com.rateye.shop_cms.domain.auth;
 
 import com.rateye.shop_cms.common.exception.InvalidParamException;
 import com.rateye.shop_cms.common.response.ErrorCode;
@@ -21,9 +21,9 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class UserServiceImpl implements UserService {
-    private final UserStore userStore;
-    private final UserReader userReader;
+public class AuthServiceImpl implements AuthService {
+    private final AuthStore authStore;
+    private final AuthReader authReader;
     private final JwtTokenProvider jwtTokenProvider;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final RedisTemplate redisTemplate;
@@ -36,11 +36,12 @@ public class UserServiceImpl implements UserService {
      */
     @Transactional
     @Override
-    public UserInfo registerUser(UserCommand.RegisterUserRequest command) {
-        if (userReader.existsUserById(command.getId())) throw new InvalidParamException(ErrorCode.USER_REDUPLICATION_ID);
+    public void register(AuthCommand.RegisterRequest command) {
+        if (authReader.existsUserByEmail(command.getEmail())) throw new InvalidParamException(ErrorCode.USER_REDUPLICATION_EMAIL);
+        System.out.println(command.getName());
+        System.out.println(command.getPassword());
         var initUser = command.toEntity();
-        User user = userStore.save(initUser);
-        return new UserInfo(user);
+        authStore.save(initUser);
     }
 
     /**
@@ -50,7 +51,7 @@ public class UserServiceImpl implements UserService {
      */
     @Transactional(readOnly = true)
     @Override
-    public TokenInfo loginUser(UserCriteria.LoginUserRequest criteria) {
+    public TokenInfo login(AuthCriteria.LoginRequest criteria) {
         // 1. Login ID/PW 를 기반으로 Authentication 객체 생성
         // 이때 authentication 는 인증 여부를 확인하는 authenticated 값이 false
         UsernamePasswordAuthenticationToken authenticationToken = criteria.toAuthentication();
@@ -77,7 +78,7 @@ public class UserServiceImpl implements UserService {
      * @return          토큰 정보
      */
     @Override
-    public TokenInfo reissueToken(UserCriteria.ReissueTokenRequest criteria) {
+    public TokenInfo reissueToken(AuthCriteria.ReissueTokenRequest criteria) {
         // 1. Refresh Token 검증
         if (!jwtTokenProvider.validateToken(criteria.getRefreshToken())) throw new InvalidParamException(ErrorCode.USER_BAD_REFRESH_TOKEN);
 
@@ -106,7 +107,7 @@ public class UserServiceImpl implements UserService {
      * @param criteria    로그아웃 criteria
      */
     @Override
-    public void logoutUser(UserCriteria.LogoutRequest criteria) {
+    public void logout(AuthCriteria.LogoutRequest criteria) {
         // 1. Access Token 검증
         if (!jwtTokenProvider.validateToken(criteria.getAccessToken())) throw new InvalidParamException(ErrorCode.COMMON_BAD_REQUEST);
 

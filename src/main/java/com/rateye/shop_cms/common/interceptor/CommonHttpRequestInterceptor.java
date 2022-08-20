@@ -14,7 +14,7 @@ import java.util.UUID;
 @Component
 public class CommonHttpRequestInterceptor extends HandlerInterceptorAdapter {
 
-    public static final String HEADER_REQUEST_UUID_KEY = "x-request-id";
+    public static final String HEADER_REQUEST_UUID_KEY = "x-request-email";
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {

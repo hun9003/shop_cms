@@ -11,8 +11,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CommonResponse<T> {
-    @ApiModelProperty(value = "Response 성공 여부", example = "SUCCESS")
-    private Result result;
+    @ApiModelProperty(value = "Response 성공 여부", example = "true")
+    private boolean ok;
     @ApiModelProperty(value = "Response 데이터", example = "plain text 또는 json 형태의 데이터")
     private T data;
     @ApiModelProperty(value = "Response 메시지", example = "성공 안내 메시지")
@@ -22,7 +22,7 @@ public class CommonResponse<T> {
 
     public static <T> CommonResponse<T> success(T data, String message) {
         return (CommonResponse<T>) CommonResponse.builder()
-                .result(Result.SUCCESS)
+                .ok(true)
                 .data(data)
                 .message(message)
                 .build();
@@ -34,7 +34,7 @@ public class CommonResponse<T> {
 
     public static CommonResponse fail(String message, String errorCode) {
         return CommonResponse.builder()
-                .result(Result.FAIL)
+                .ok(false)
                 .message(message)
                 .errorCode(errorCode)
                 .build();
@@ -42,13 +42,9 @@ public class CommonResponse<T> {
 
     public static CommonResponse fail(ErrorCode errorCode) {
         return CommonResponse.builder()
-                .result(Result.FAIL)
+                .ok(false)
                 .message(errorCode.getErrorMsg())
                 .errorCode(errorCode.name())
                 .build();
-    }
-
-    public enum Result {
-        SUCCESS, FAIL
     }
 }
