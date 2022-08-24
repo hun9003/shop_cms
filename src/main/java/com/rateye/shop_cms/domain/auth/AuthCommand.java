@@ -26,7 +26,7 @@ public class AuthCommand {
                     .password(PasswordGenerator.passwordEncoder(password))
                     .shopId(null)
                     .isActive(true)
-                    .address(null)
+                    .addressList(null)
                     .profile(null)
                     .roles(Collections.singletonList(role))
                     .build();

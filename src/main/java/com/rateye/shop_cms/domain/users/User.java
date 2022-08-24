@@ -49,7 +49,7 @@ public class User extends AbstractEntity implements UserDetails {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.PERSIST)
     @Builder.Default
-    private List<Address> address = Lists.newArrayList();
+    private List<Address> addressList = Lists.newArrayList();
 
     @OneToOne(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL)
     private Profile profile;
@@ -60,7 +60,7 @@ public class User extends AbstractEntity implements UserDetails {
     private List<String> roles = new ArrayList<>();
 
     @Builder
-    public User(Long id, String email, String name, String password, Long shopId, boolean isActive, List<Address> address, Profile profile, List<String> roles) {
+    public User(Long id, String email, String name, String password, Long shopId, boolean isActive, List<Address> addressList, Profile profile, List<String> roles) {
         if (StringUtils.isEmpty(email)) throw new InvalidParamException("empty email");
         if (StringUtils.isEmpty(name)) throw new InvalidParamException("empty name");
         if (StringUtils.isEmpty(password)) throw new InvalidParamException("empty password");
@@ -72,7 +72,7 @@ public class User extends AbstractEntity implements UserDetails {
         this.shopId = shopId;
         this.isActive = isActive;
         this.profile = profile;
-        this.address = address;
+        this.addressList = addressList;
     }
 
     public void setProfile(Profile profile) {

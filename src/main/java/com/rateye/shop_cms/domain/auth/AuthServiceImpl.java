@@ -151,7 +151,7 @@ public class AuthServiceImpl implements AuthService {
         Authentication authentication = jwtTokenProvider.getAuthentication(token);
         var email = authentication.getName();
         var user = authReader.getUserByEmail(email);
-        var addressInfo = user.getAddress().stream().map(address -> {
+        var addressInfo = user.getAddressList().stream().map(address -> {
             var addressDetailInfo = new UserInfo.AddressDetailInfo(address.getAddressDetail());
             return new UserInfo.AddressInfo(address, addressDetailInfo);
         }).collect(Collectors.toList());
