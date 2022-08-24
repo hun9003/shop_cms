@@ -24,8 +24,34 @@ public class AuthCommand {
                     .email(email)
                     .name(name)
                     .password(PasswordGenerator.passwordEncoder(password))
+                    .shopId(null)
+                    .isActive(true)
+                    .address(null)
+                    .profile(null)
                     .roles(Collections.singletonList(role))
                     .build();
+        }
+    }
+
+    @Getter
+    @Builder
+    @ToString
+    public static class ResetPasswordRequest {
+        private final String email;
+        private final String password;
+        private final String token;
+    }
+
+    @Getter
+    @Builder
+    @ToString
+    public static class ChangePassword {
+        private final String newPassword;
+        private final String oldPassword;
+
+        public ChangePassword(String newPassword, String oldPassword) {
+            this.newPassword = newPassword;
+            this.oldPassword = oldPassword;
         }
     }
 }

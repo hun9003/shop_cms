@@ -16,4 +16,9 @@ public class MailStoreImpl implements MailStore {
     public Mail save(Mail mail) {
         return mailRepository.save(mail);
     }
+
+    @Override
+    public void delete(Mail mail) {
+        mailRepository.delete(mail);
+    }
 }

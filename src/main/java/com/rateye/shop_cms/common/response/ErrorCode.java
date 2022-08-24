@@ -22,8 +22,11 @@ public enum ErrorCode {
     USER_FAIL_EXPIRED_TOKEN("토큰이 만료 되었습니다."),
     USER_FAIL_INVALID_TOKEN("유효하지 않는 토큰 입니다."),
     USER_FAIL_UNSUPPORTED_TOKEN("지원하지 않는 토큰 입니다."),
-    USER_FAIL_NON_LOGIN("로그인 후 이용 가능 합니다.");
+    USER_FAIL_NON_LOGIN("로그인 후 이용 가능 합니다."),
+    USER_FAIL_CHANGE_PASSWORD("현재 비밀번호가 일치하지 않습니다"),
 
+    //Mail
+    MAIL_FAIL_INVALID_TOKEN("이메일 토큰이 유효하지 않습니다");
 
     private final String errorMsg;
 

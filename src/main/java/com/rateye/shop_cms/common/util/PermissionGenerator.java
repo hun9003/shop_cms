@@ -10,7 +10,15 @@ public class PermissionGenerator {
         List<GrantedAuthority> roleList = new ArrayList<>(roles);
         String role = roleList.get(0).getAuthority().toLowerCase(Locale.ROOT);
         role = role.substring(0, 1).toUpperCase() + role.substring(1);
-        System.out.println(role);
+        String[] userPermissions = new String[Arrays.asList(permissions).indexOf(role.replace("_", " "))+1];
+        System.arraycopy(permissions, 0, userPermissions, 0, userPermissions.length);
+        return userPermissions;
+    }
+
+    public static String[] getPermissions(List<String> roles) {
+        String[] permissions = {"Customer", "Staff", "Store owner", "Super admin"};
+        String role = roles.get(0).toLowerCase(Locale.ROOT);
+        role = role.substring(0, 1).toUpperCase() + role.substring(1);
         String[] userPermissions = new String[Arrays.asList(permissions).indexOf(role.replace("_", " "))+1];
         System.arraycopy(permissions, 0, userPermissions, 0, userPermissions.length);
         return userPermissions;

@@ -2,8 +2,10 @@ package com.rateye.shop_cms.domain.auth;
 
 import com.rateye.shop_cms.common.exception.InvalidParamException;
 import com.rateye.shop_cms.common.response.ErrorCode;
+import com.rateye.shop_cms.common.util.PasswordGenerator;
 import com.rateye.shop_cms.common.util.jwt.JwtTokenProvider;
 import com.rateye.shop_cms.common.util.redis.RedisUtil;
+import com.rateye.shop_cms.domain.users.UserInfo;
 import com.rateye.shop_cms.domain.users.token.TokenInfo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -38,8 +41,6 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public void register(AuthCommand.RegisterRequest command) {
         if (authReader.existsUserByEmail(command.getEmail())) throw new InvalidParamException(ErrorCode.USER_REDUPLICATION_EMAIL);
-        System.out.println(command.getName());
-        System.out.println(command.getPassword());
         var initUser = command.toEntity();
         authStore.save(initUser);
     }
@@ -123,5 +124,40 @@ public class AuthServiceImpl implements AuthService {
         // 4. 해당 Access Token 유효시간 가지고 와서 BlackList 로 저장하기
         Long expiration = jwtTokenProvider.getExpiration(criteria.getAccessToken());
         redisUtil.setBlackList(criteria.getAccessToken(), "access_token", expiration);
+    }
+
+    @Override
+    @Transactional
+    public void resetPassword(AuthCommand.ResetPasswordRequest command) {
+        var user = authReader.getUserByEmail(command.getEmail());
+        user.setPassword(command.getPassword());
+    }
+
+    @Override
+    @Transactional
+    public void changePassword(AuthCommand.ChangePassword command, String token) {
+        if (!jwtTokenProvider.validateToken(token)) throw new InvalidParamException(ErrorCode.USER_FAIL_INVALID_TOKEN);
+        Authentication authentication = jwtTokenProvider.getAuthentication(token);
+        var email = authentication.getName();
+        var user = authReader.getUserByEmail(email);
+        if (!PasswordGenerator.isMatch(command.getOldPassword(), user.getPassword()))
+            throw new InvalidParamException(ErrorCode.USER_FAIL_CHANGE_PASSWORD);
+        user.setPassword(command.getNewPassword());
+    }
+
+    @Override
+    public UserInfo.Me me(String token) {
+        if (!jwtTokenProvider.validateToken(token)) throw new InvalidParamException(ErrorCode.USER_FAIL_INVALID_TOKEN);
+        Authentication authentication = jwtTokenProvider.getAuthentication(token);
+        var email = authentication.getName();
+        var user = authReader.getUserByEmail(email);
+        var addressInfo = user.getAddress().stream().map(address -> {
+            var addressDetailInfo = new UserInfo.AddressDetailInfo(address.getAddressDetail());
+            return new UserInfo.AddressInfo(address, addressDetailInfo);
+        }).collect(Collectors.toList());
+        var profileInfo = new UserInfo.ProfileInfo(user.getProfile());
+
+        return new UserInfo.Me(user, addressInfo, profileInfo);
+
     }
 }
