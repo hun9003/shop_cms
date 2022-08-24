@@ -16,7 +16,7 @@ public class RedisConnector implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findById(username)
+        return userRepository.findByEmail(username)
                 .map(this::createUserDetails)
                 .orElseThrow(() -> new UsernameNotFoundException("유저를 찾을 수 없습니다."));
     }
